@@ -30,6 +30,7 @@ mongoose.connect( process.env.MONGO_URI, {
   dbName: process.env.BD_NAME,
   user: process.env.BD_USER,
   pass: process.env.BD_PASS,
+  replicaSet: 'atlas-q3cze7-shard-0'
 }).then(() => {
   console.log('Conectado a MongoDB');
   app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
