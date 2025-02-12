@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Task = require('../models/Task');
 const mongoose = require('mongoose');
+const User = require('../models/User');
 
 // Obtener todas las tareas
 router.get('/api/tasks', async (req, res) => {
