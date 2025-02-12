@@ -44,6 +44,7 @@ router.post('/api/register', async (req, res) => {
         username,
         password: hashedPassword,
         weeklyScores: [0], //La lógica será siempre iterar sobre la última cada vez que haga tareas esa semana
+        assistance: [false]
       });
   
       await newUser.save();

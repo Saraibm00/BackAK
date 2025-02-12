@@ -33,6 +33,13 @@ router.post('/api/tasks/:id/complete', async (req, res) => {
 
       await task.save();
     }
+
+    if (req.params.id == '67aa1c00e777a0ebbe8943b1') { //Aquí compruebo si la tarea es la de ir al Taller y se lo meto al usuario
+      const user = await User.findById(id);
+      user.assistance.set((user.assistance.length - 1), true);
+      await user.save();
+    }
+
     const tasks = await Task.find();
     res.status(200).json(tasks);
   } catch (error) {
@@ -60,6 +67,13 @@ router.post('/api/tasks/:id/unComplete', async (req, res) => {
 
       await task.save();
     }
+
+    if (req.params.id == '67aa1c00e777a0ebbe8943b1') { //Aquí compruebo si la tarea es la de ir al Taller y se lo meto al usuario
+      const user = await User.findById(id);
+      user.assistance.set((user.assistance.length - 1), false);
+      await user.save();
+    }
+
     const tasks = await Task.find();
     res.status(200).json(tasks);
   } catch (error) {

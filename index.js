@@ -52,10 +52,11 @@ cron.schedule("0 7 * * 1", async () => {
       await task.save();
     }
 
-    // Aquí añado una semana más al ranking total
+    // Aquí añado una semana más al ranking total y a la asistencia a los talleres
     const users = await User.find();
     for (let user of users){
       user.weeklyScores.push(0);
+      user.assistance.push(false);
       await user.save();
     }
 
