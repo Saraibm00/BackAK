@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const tasksRouter = require('./routes/tasks');
 const rankingsRouter = require('./routes/rankings');
+const usersRouter = require('./routes/users');
 require('dotenv').config();
 const authRouter = require('./routes/auth');
 const cron = require("node-cron");
@@ -22,6 +23,8 @@ app.use(express.json());
 app.use(tasksRouter);
 app.use(rankingsRouter);
 app.use(authRouter);
+app.use(usersRouter);
+
 
 // Conexión a MongoDB
 mongoose.connect( process.env.MONGO_URI, {
