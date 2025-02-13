@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const userNoAssistance = ['67aa21e44df5374200071041', '67ab6bc9d3f1331bfa79f725', '67ab6f04d3f1331bfa79f75a', '67ad0b2b79b60513d805d1ef'];
 
 // Ruta para obtener usuarios que van
 router.get('/api/users', async (req, res) => {
@@ -9,10 +10,12 @@ router.get('/api/users', async (req, res) => {
     const userNoGo = [];
     const users = await User.find();
     for (let user of users){
-      if(user.assistance[user.assistance.length - 1])
-        userGo.push(user.username +', ');
-      else
-        userNoGo.push(user.username + ', ');
+      if(!userNoAssistance.includes(user.id)){
+        if(user.assistance[user.assistance.length - 1])
+          userGo.push(user.username +', ');
+        else
+          userNoGo.push(user.username + ', ');
+      }
     }
     jsonRes = {userGo, userNoGo};
     res.status(200).json(jsonRes);
