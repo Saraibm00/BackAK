@@ -1,9 +1,10 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
+const Task = require('../models/Task');
 const userNoAssistance = ['67aa21e44df5374200071041', '67ab6bc9d3f1331bfa79f725', '67ab6f04d3f1331bfa79f75a', '67ad0b2b79b60513d805d1ef', '67b04b23c1551c66aa28b301'];
 
-// Ruta para obtener usuarios que van
+// Ruta para resetear los valores de cada semana
 router.get('/api/reset', async (req, res) => {
   console.log("Ejecutando tarea de reinicio...");
     try {
