@@ -7,7 +7,41 @@ const User = require('../models/User');
 // Obtener todas las tareas
 router.get('/api/tasks', async (req, res) => {
   try {
+    const user = await User.findById('67aa21e44df5374200071041');
     const tasks = await Task.find();
+    const today = new Date();
+    const firstDayOfYear = new Date(today.getFullYear(), 0, 1);
+    const pastDays = (today - firstDayOfYear) / 86400000; // Convertir ms a días
+    const weekNumber = Math.ceil((pastDays + firstDayOfYear.getDay() + 1) / 7);
+    if (user.week[0] != weekNumber){
+      console.log("Ejecutando tarea de reinicio...");
+      try {
+        // Aquí pongo las tareas todas sin hacer y las que son de un solo uso las pongo a usadas una vez por los que las han completado
+        // para que así no les vuelva a salir a la siguiente semana ni las posteriores
+        const tasks = await Task.find();
+        for (let task of tasks){
+          if(task.singleUse){
+            task.usedOnce = task.completedBy;
+          }
+          task.completedBy = [];
+          await task.save();
+        }
+        
+        // Aquí añado una semana más al ranking total y a la asistencia a los talleres
+        const users = await User.find();
+        for (let user of users){
+          user.weeklyScores.push(0);
+          user.assistance.push(false);
+          await user.save();
+        }
+        
+        console.log("Valores reseteados y actualizados correctamente.");
+      } catch (error) {
+        console.error("Error al ejecutar la tarea:", error);
+      }
+      user.week[0] = weekNumber;
+      user.save();
+    }
     res.status(200).json(tasks);
   } catch (error) {
     res.status(500).json({ message: 'Error al obtener las tareas' });
