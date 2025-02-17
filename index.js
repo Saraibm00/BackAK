@@ -6,6 +6,7 @@ const rankingsRouter = require('./routes/rankings');
 const usersRouter = require('./routes/users');
 require('dotenv').config();
 const authRouter = require('./routes/auth');
+const resetRouter = require('./routes/reset');
 const cron = require("node-cron");
 const Task = require('./models/Task');
 const User = require('./models/User');
@@ -24,6 +25,7 @@ app.use(tasksRouter);
 app.use(rankingsRouter);
 app.use(authRouter);
 app.use(usersRouter);
+app.use(resetRouter);
 
 
 // Conexión a MongoDB
@@ -38,36 +40,3 @@ mongoose.connect( process.env.MONGO_URI, {
   console.log('Conectado a MongoDB');
   app.listen(PORT, () => console.log(`Servidor corriendo en el puerto ${PORT}`));
 }).catch(err => console.error('Error al conectar a MongoDB:', err));
-
-// 📅 Ejecutar cada lunes a las 10:00 AM
-cron.schedule("0 7 * * 1", async () => {
-  console.log("Ejecutando tarea de reinicio...");
-
-  try {
-    // Aquí pongo las tareas todas sin hacer y las que son de un solo uso las pongo a usadas una vez por los que las han completado
-    // para que así no les vuelva a salir a la siguiente semana ni las posteriores
-    const tasks = await Task.find();
-    for (let task of tasks){
-      if(task.singleUse){
-        task.usedOnce = task.completedBy;
-      }
-      task.completedBy = [];
-      await task.save();
-    }
-
-    // Aquí añado una semana más al ranking total y a la asistencia a los talleres
-    const users = await User.find();
-    for (let user of users){
-      user.weeklyScores.push(0);
-      user.assistance.push(false);
-      await user.save();
-    }
-
-    console.log("Valores reseteados y actualizados correctamente.");
-  } catch (error) {
-    console.error("Error al ejecutar la tarea:", error);
-  }
-});
-
-console.log("Bot en ejecución...");
-
