@@ -10,9 +10,11 @@ router.get('/api/tasks', async (req, res) => {
     const user = await User.findById('67aa21e44df5374200071041');
     const tasks = await Task.find();
     const today = new Date();
-    const firstThursday  = new Date(today.getFullYear(), 0, 4);
-    const dayOfYear = (today - new Date(today.getFullYear(), 0, 1)) / 86400000 + 1;
-    const weekNumber = Math.ceil((dayOfYear + firstThursday.getDay() - 1) / 7);
+    const thursday = new Date(today.getFullYear(), 0, 4); // 4 de enero (referencia ISO)
+    const firstWeekStart = new Date(thursday);
+    firstWeekStart.setDate(thursday.getDate() - (thursday.getDay() + 6) % 7); // Lunes de la primera semana ISO
+    const diffDays = Math.floor((date - firstWeekStart) / 86400000); // Diferencia en días
+    const weekNumber = Math.ceil((diffDays + 1) / 7); // Calculamos la semana
     if (user.week[0] != weekNumber){
       console.log("Ejecutando tarea de reinicio de las tasks...");
       console.log("La semana de hoy es la " + weekNumber);
