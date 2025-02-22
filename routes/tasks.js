@@ -35,12 +35,13 @@ router.get('/api/tasks', async (req, res) => {
           user.assistance.push(false);
           await user.save();
         }
-        console.log("Valores reseteados y actualizados correctamente.");
+        
       } catch (error) {
         console.error("Error al ejecutar la tarea:", error);
       }
       user.week[0] = weekNumber;
       user.save();
+      console.log("Valores reseteados y actualizados correctamente.");
     }
     res.status(200).json(tasks);
   } catch (error) {

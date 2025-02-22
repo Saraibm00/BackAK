@@ -6,6 +6,6 @@ const userSchema = new mongoose.Schema({
   weeklyScores: [{ type: Number, default: 0 }],
   assistance : [{ type: Boolean, default: false}],
   week : [{type: Number, default: 0}]
-});
+}, { versionKey: false });
 
 module.exports = mongoose.model('User', userSchema);
