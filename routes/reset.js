@@ -6,7 +6,7 @@ const userNoAssistance = ['67aa21e44df5374200071041', '67ab6bc9d3f1331bfa79f725'
 
 // Ruta para resetear los valores de cada semana
 router.get('/api/reset', async (req, res) => {
-  console.log("Ejecutando tarea de reinicio...");
+  console.log("Ejecutando tarea de reinicio desde el reset...");
     try {
       // Aquí pongo las tareas todas sin hacer y las que son de un solo uso las pongo a usadas una vez por los que las han completado
       // para que así no les vuelva a salir a la siguiente semana ni las posteriores

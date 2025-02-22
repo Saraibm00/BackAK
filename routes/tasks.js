@@ -14,7 +14,8 @@ router.get('/api/tasks', async (req, res) => {
     const pastDays = (today - firstDayOfYear) / 86400000; // Convertir ms a días
     const weekNumber = Math.ceil((pastDays + firstDayOfYear.getDay() + 1) / 7);
     if (user.week[0] != weekNumber){
-      console.log("Ejecutando tarea de reinicio...");
+      console.log("Ejecutando tarea de reinicio de las tasks...");
+      console.log("La semana de hoy es la " + weekNumber);
       try {
         // Aquí pongo las tareas todas sin hacer y las que son de un solo uso las pongo a usadas una vez por los que las han completado
         // para que así no les vuelva a salir a la siguiente semana ni las posteriores
@@ -34,7 +35,6 @@ router.get('/api/tasks', async (req, res) => {
           user.assistance.push(false);
           await user.save();
         }
-        
         console.log("Valores reseteados y actualizados correctamente.");
       } catch (error) {
         console.error("Error al ejecutar la tarea:", error);
