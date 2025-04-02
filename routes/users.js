@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/User');
-const userNoAssistance = ['67aa21e44df5374200071041', '67ab6bc9d3f1331bfa79f725', '67ab6f04d3f1331bfa79f75a', '67ad0b2b79b60513d805d1ef', '67b04b23c1551c66aa28b301'];
+const userNoAssistance = ['67aa21e44df5374200071041', '67ab6bc9d3f1331bfa79f725', '67ab6f04d3f1331bfa79f75a', '67ad0b2b79b60513d805d1ef', '67b04b23c1551c66aa28b301', '67eb0ff7ce5bbeec669960f5'];
 
 // Ruta para obtener usuarios que van
 router.get('/api/users', async (req, res) => {
